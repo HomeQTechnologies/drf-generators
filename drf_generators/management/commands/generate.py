@@ -28,6 +28,9 @@ class Command(AppCommand):
 
         make_option('--urls', dest='urls', action='store_true',
                     help='generate urls only'),
+
+        make_option('--models', dest='models', default="",
+                    help='comma separated list of models to use'),
     )
 
     option_list = AppCommand.option_list + base_options
@@ -46,6 +49,7 @@ class Command(AppCommand):
                 serializers = False
             views = options['views'] if 'views' in options else False
             urls = options['urls'] if 'urls' in options else False
+            models = [m for m in options['models'].split(',') if m]  if 'models' in options else []
 
         elif django.VERSION[1] >= 8:
             force = options['force']
@@ -54,17 +58,18 @@ class Command(AppCommand):
             serializers = options['serializers']
             views = options['views']
             urls = options['urls']
+            models = [m for m in options['models'].split(',') if m]
         else:
             raise CommandError('You must be using Django 1.7, 1.8 or 1.9')
 
         if format == 'viewset':
-            generator = ViewSetGenerator(app_config, force)
+            generator = ViewSetGenerator(app_config, force, models)
         elif format == 'apiview':
-            generator = APIViewGenerator(app_config, force)
+            generator = APIViewGenerator(app_config, force, models)
         elif format == 'function':
-            generator = FunctionViewGenerator(app_config, force)
+            generator = FunctionViewGenerator(app_config, force, models)
         elif format == 'modelviewset':
-            generator = ModelViewSetGenerator(app_config, force)
+            generator = ModelViewSetGenerator(app_config, force, models)
         else:
             message = '\'%s\' is not a valid format. ' % options['format']
             message += '(viewset, modelviewset, apiview, function)'
