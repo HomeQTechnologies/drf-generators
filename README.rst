@@ -83,6 +83,10 @@ Option                     Action
 ``--force``                Overwrite existing files without the warning prompt.
 ``-f``, ``--format``       Format to use when generating views and urls. Valid options: ``viewset``, ``apiview``, ``function``, ``modelviewset``. Default: ``viewset``.
 ``-d``, ``--depth``        Serialization depth for related models. Default: 0
+``--models``               comma separated list of models to use
+``--serializer-file``      output file for serializers
+``--view-file``            output file for views
+``--url-file``             output file for urls
 ========================== ===================================================
 
 **Example:** Generate everything for the app ``api`` with function style views, overwriting existing files, with a serialization depth of 2.
