@@ -23,25 +23,22 @@ class BaseGenerator(object):
         self.models = self.get_model_names(models)
         self.serializers = self.get_serializer_names()
 
-    def generate_serializers(self, depth):
+    def generate_serializers(self, depth, filename):
         content = self.serializer_content(depth)
-        filename = 'serializers.py'
         if self.write_file(content, filename):
             return '  - writing %s' % filename
         else:
             return 'Serializer generation cancelled'
 
-    def generate_views(self):
+    def generate_views(self, filename):
         content = self.view_content()
-        filename = 'views.py'
         if self.write_file(content, filename):
             return '  - writing %s' % filename
         else:
             return 'View generation cancelled'
 
-    def generate_urls(self):
+    def generate_urls(self, filename):
         content = self.url_content()
-        filename = 'urls.py'
         if self.write_file(content, filename):
             return '  - writing %s' % filename
         else:
